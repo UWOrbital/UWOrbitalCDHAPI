@@ -1,2 +1,0 @@
-# UWOrbitalCDHAPI
-CDH API
