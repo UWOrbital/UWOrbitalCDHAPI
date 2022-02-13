@@ -1,17 +1,32 @@
 /*
 Copyright 2018 olmanqj
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
  */
 
 /**
- * @file	app_task.c
  * @brief	Application Task
+ * @example app_task.c
+ * Application Task Example
 
 Application Task
 ================
-Application task Template.
+This is an example of how to create an Application task.
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,7 +45,23 @@ Application task Template.
 #include <sfsf_cmd.h>
 #include <sfsf_param.h>
 #include <sfsf_time.h>
-#include <sfsf_storage.h>
+
+// Mission config
+#include <mission_config.h>
+
+
+
+param_handle_t time_stamp_h;
+void update_parameter_table(void)
+{
+	// At first call, populate handlers		// TODO get handle by Index
+	if(time_stamp_h ==  NULL)
+	{
+		time_stamp_h = get_param_handle_by_name("time_stamp");
+	}
+	// Update timestamp
+	get_timestamp_str((char*)time_stamp_h->value, time_stamp_h->size);
+}
 
 
 
@@ -39,7 +70,8 @@ csp_socket_t *  server_socket;
 csp_conn_t *    new_conn;
 csp_packet_t *  in_csp_packet;
 cmd_exit_status_t cmd_exit_status;
-
+// General purpose Buffer
+char aux_message_buff[128];
 
 /**
  * @brief	Application Task, execute the main application loop
@@ -58,6 +90,17 @@ CSP_DEFINE_TASK(app_task)
 	// Set socket to listen for incoming connections
 	csp_listen(server_socket, 5);
 
+	// Log Start Event
+	log_print("System Start");
+
+	// Print the parameter table, just for debug
+	print_pram_table(); // TODO For debugging, remove for final build
+
+	sync_timestamp(1829098090); // TODO remove this just for debug
+
+	// Start Beacon Storage and Broadcast
+	resume_hk_storage();
+	resume_hk_broadcast();
 
 	// Main Application Loop
     while(1)
@@ -65,14 +108,11 @@ CSP_DEFINE_TASK(app_task)
 		// Clear Software and hardware Watchdog timers
 		reset_sw_wdt();
 
+		// Update parameter table
+		update_parameter_table();
 
 
-		//Call to your mission code here 			<====================
-		// Execute the specific action for the current Mode of Operation
-		// It should never be a loop other wise the Watchdog timer will be triggered,
-		// Or call reset_sw_wdt() in your mission code
-
-
+		print_debug("APP>\tWaiting for commands\n");
 
 		// Check for new commands
         // Wait for a new connection
@@ -99,8 +139,14 @@ CSP_DEFINE_TASK(app_task)
             {
 				// If is a command, try to process it
                 case CSP_OBC_PORT_CMD:
+					// Log in Command Event
+					sprintf(aux_message_buff, "In Cmd %x", in_csp_packet->data[0] );
+					log_print(aux_message_buff);
 					// Call Command Handler to process command
 					cmd_exit_status = command_handler(new_conn, in_csp_packet);
+					// Log Command Exit Status
+					sprintf(aux_message_buff, "Command %x exit status: %d",in_csp_packet->data[0], cmd_exit_status );
+					log_print(aux_message_buff);
                     break;
                 default:
 					// CSP Services Handler attends reserved Ports Services
