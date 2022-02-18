@@ -15,10 +15,10 @@ FLAGS += -g
 
 
 app:
-	gcc ${SRCS} ${FLAGS} ${INLCUDE_DIRS} ${LIBS}
+	gcc -o app ${SRCS} ${FLAGS} ${INLCUDE_DIRS} ${LIBS}
 
 ground:
-	gcc ground_station/* ${FLAGS} ${INLCUDE_DIRS} ${LIBS}
+	gcc -o ground ground_station/* ${FLAGS} ${INLCUDE_DIRS} ${LIBS}
 
 clean:
-	rm -r *.o *.out
+	rm -r *.o *.out app ground
