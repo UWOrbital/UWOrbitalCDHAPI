@@ -91,20 +91,20 @@ DEFINE_CMD_ROUTINE(cmd_get_param)
 			param_to_str(param_h, arg_value_buff, sizeof(arg_value_buff));
 		}
 		// If no more space in csp response packet then finish
-		if((strlen(response_packet->data)+arg_size+2) >= CSP_BUFFER_SIZE) break;
+		if((strlen((const char *) response_packet->data)+arg_size+2) >= CSP_BUFFER_SIZE) break;
 		// Separate by comma, except if first
-		if(strlen(response_packet->data) != 0)strcat(response_packet->data,   "," );
+		if(strlen((const char *) response_packet->data) != 0)strcat((char *)response_packet->data,   "," );
 		// Concatenate name of param into response packet
-		strcat(response_packet->data,   param_name);
-		strcat(response_packet->data,   ":" );
+		strcat((char *)response_packet->data,   param_name);
+		strcat((char *)response_packet->data,   ":" );
 		// Concatenate value as str into response packet
-		strcat(response_packet->data,  arg_value_buff );
+		strcat((char *)response_packet->data,  arg_value_buff );
 		// Clear buffers for next arg
 		bzero(arg_value_buff, sizeof(arg_value_buff));
 		bzero(param_name, sizeof(param_name));
 	}
 	// Store message size
-	response_packet->length = strlen(response_packet->data);
+	response_packet->length = strlen((const char *)response_packet->data);
 	// Send message
 	if(csp_send(conn, response_packet, 1000) == 0)
 	{
@@ -164,20 +164,20 @@ DEFINE_CMD_ROUTINE(cmd_set_param)
 			}
 		}
 		// If no more space in csp response packet then finish
-		if((strlen(response_packet->data)+strlen(arg_value_buff)+strlen(param_name)+2) >= CSP_BUFFER_SIZE) break;
+		if((strlen((const char *)response_packet->data)+strlen(arg_value_buff)+strlen(param_name)+2) >= CSP_BUFFER_SIZE) break;
 		// Separate by comma, except if first
-		if(strlen(response_packet->data) != 0)strcat(response_packet->data,   "," );
+		if(strlen((const char *)response_packet->data) != 0)strcat((char *)response_packet->data,   "," );
 		// Concatenate name of param into response packet
-		strcat(response_packet->data,   param_name);
-		strcat(response_packet->data,   ":" );
+		strcat((char *)response_packet->data,   param_name);
+		strcat((char *)response_packet->data,   ":" );
 		// Concatenate set_param exit status as str into response packet
-		strcat(response_packet->data,  arg_value_buff );
+		strcat((char *)response_packet->data,  arg_value_buff );
 		// Clear buffers for next arg
 		bzero(arg_value_buff, sizeof(arg_value_buff));
 		bzero(param_name, sizeof(param_name));
 	}
 	// Store message size
-	response_packet->length = strlen(response_packet->data);
+	response_packet->length = strlen((const char *)response_packet->data);
 	// Send message
 	if(csp_send(conn, response_packet, 1000) == 0)
 	{
