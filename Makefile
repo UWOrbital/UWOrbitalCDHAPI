@@ -18,6 +18,8 @@ FLAGS += -g
 WAFFLAGS := --with-driver-usart=linux
 WAFFLAGS += --enable-if-zmqhub
 
+all: app ground
+
 app:
 	gcc -o app.out ${SRCS} ${FLAGS} ${INLCUDE_DIRS} ${LIBS}
 
