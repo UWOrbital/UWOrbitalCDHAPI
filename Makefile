@@ -2,11 +2,11 @@
 
 SRCS := src/*
 
-INLCUDE_DIRS := -Ilibcsp/include
-INLCUDE_DIRS += -Ilibcsp/build/include
-INLCUDE_DIRS += -Llibcsp/build/
-INLCUDE_DIRS += -Iinclude
-INLCUDE_DIRS += -Iports/linux
+INCLUDE_DIRS := -Ilibcsp/include
+INCLUDE_DIRS += -Ilibcsp/build/include
+INCLUDE_DIRS += -Llibcsp/build/
+INCLUDE_DIRS += -Iinclude
+INCLUDE_DIRS += -Iports/linux
 
 LIBS := -lcsp
 LIBS += -pthread
@@ -21,10 +21,10 @@ WAFFLAGS += --enable-if-zmqhub
 all: app ground
 
 app:
-	gcc -o app.out ${SRCS} ${FLAGS} ${INLCUDE_DIRS} ${LIBS}
+	gcc -o app.out ${SRCS} ${FLAGS} ${INCLUDE_DIRS} ${LIBS}
 
 ground:
-	gcc -o ground.out ground_station/* ${FLAGS} ${INLCUDE_DIRS} ${LIBS}
+	gcc -o ground.out ground_station/* ${FLAGS} ${INCLUDE_DIRS} ${LIBS}
 
 libcsp: FORCE
 	cd libcsp; \
