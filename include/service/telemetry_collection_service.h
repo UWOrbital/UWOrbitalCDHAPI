@@ -5,15 +5,15 @@
 
 /*
 * Sends a request to submodule, collects telemetry and store in a buffer.
-* TODO: Add parameters (port for connection, buffer etc.)
-* return 0 if successful, else error code
+* @param TODO: Add parameters (port for connection, buffer etc.)
+* @return 0 if successful, else error code
 */
 int collect_telemetry();
 
 /*
 * Sends data to a submodule, store response in a buffer.
-* TODO: Add parameters (port for connection, buffer etc.)
-* return 0 if successful, else error code
+* @param TODO: Add parameters (port for connection, buffer etc.)
+* @return 0 if successful, else error code
 */
 int send_telemetry();
 
@@ -24,14 +24,14 @@ int send_telemetry();
 
 /*
 * Converts the struct to a character buffer
-* TODO: Add parameters (struct, buffer, etc.)
-* return 0 if successful, else error code
+* @param TODO: Add parameters (struct, buffer, etc.)
+* @return 0 if successful, else error code
 */
 int struct_to_char_buff();
 
 /*
 * Converts the buffer (should be in the form of a char[]) to a struct
-* TODO: Add parameters (struct, buffer, etc.)
-* return 0 if successful, else error code
+* @param TODO: Add parameters (struct, buffer, etc.)
+* @return 0 if successful, else error code
 */
 int char_buff_to_struct();
