@@ -1,3 +1,6 @@
+#ifndef SYS_STAT_SERVICE_H
+#define SYS_STAT_SERVICE_H
+
 /**
 * Service responsible for reboot, emergency mode, and resolving system errors
 */
@@ -22,7 +25,7 @@ int sys_reboot(void);
   Should be used purely as a state changer
   @return 1 if successful state change, else 0 on fail
 */
-int sys_emergency_state();
+int sys_emergency_state(void);
 
 /**
   Chooses how to handle the error, should use system reboot as last resort.
@@ -37,3 +40,5 @@ int sys_error_handler(sys_health_t *sys_health);
 */
 
 // TODO: Implement error handling functions as needed, will depend on system health params
+
+#endif

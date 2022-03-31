@@ -1,3 +1,6 @@
+#ifndef TLM_COLL_SERVICE_H
+#define TLM_COLL_SERVICE_H
+
 /**
 * Service responsible for collecting and sending telemetry to comms.
 * Ensures data transmitted at the right time.
@@ -56,3 +59,5 @@ int struct_to_char_buff(void * inbuf, int inlen);
   @return 1 on success, 0 on failure
 */
 int char_buff_to_struct(void * outbuf, int outlen);
+
+#endif
