@@ -10,14 +10,15 @@
 #include <csp/csp.h>
 
 /**
- * Maps each subsystem to a port
+ * @enum subsystem_port_t
+ * @brief Maps each subsystem to a port
  */
-enum subsystem_port_t {
+typedef enum {
     // TODO: Change numbers to be real ports which are TBD
     CDH = 0,
     COMMS = 1,
     ADCS = 2
-};
+} subsystem_port_t;
 
 // TODO: Send and collect telemetry should be similar to
 // existing csp functions. Should use existing functions
