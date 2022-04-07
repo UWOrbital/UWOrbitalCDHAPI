@@ -27,18 +27,25 @@ typedef enum {
 // TODO: Figure out if this is necessary or if built in
 // get command in sfsf will suffice
 /**
-  Sends a request to submodule, collects telemetry and store in a buffer.
+  Sends a request to submodule, collects telemetry and store in a buffer. Usually a get command.
   @param TODO: Add parameters (port for connection, buffer etc.)
   @return 0 if successful, TODO: define what error codes and typedef for them
 */
 int collect_telemetry();
 
 /**
-  Sends data to a submodule, store response in a buffer.
-  @param TODO: Add parameters (port for connection, buffer etc.)
-  @return 0 if successful, else error code
+  Sends data to a submodule, store response in a buffer. Parameters almost identical to csp_transaction. Usually a set command.
+  @param[in] prio priority, see #csp_prio_t
+  @param[in] dest destination address
+  @param[in] port destination based on submodule
+  @param[in] timeout timeout in mS to wait for a reply
+  @param[in] outbuf outgoing data (request)
+  @param[in] outlen length of data in \a outbuf (request)
+  @param[out] inbuf user provided buffer for receiving data (reply)
+  @param[in] inlen length of expected reply, -1 for unknown size (inbuf MUST be large enough), 0 for no reply.
+  @return 1 or reply size on success, 0 on failure (error, incoming length does not match, timeout)
 */
-int send_telemetry();
+int send_telemetry(uint8_t prio, uint8_t dest, subsystem_port_t port, uint32_t timeout, void * outbuf, int outlen, void * inbuf, int inlen);
 
 
 /**
