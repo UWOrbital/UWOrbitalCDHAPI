@@ -75,7 +75,7 @@ CSP_DEFINE_TASK( hk_service_task )
 		// Clear packet
 		bzero(beacon_packet->data,  CONF_CSP_BUFF_SIZE );
 		// Collect telemetry data automatically with the telemetry_collector function, should be assigned at init
-		if (telemetry_collector_fun != NULL) telemetry_collector_fun(beacon_packet->data,  CONF_CSP_BUFF_SIZE );
+		if (telemetry_collector_fun != NULL) telemetry_collector_fun( (char*)beacon_packet->data,  CONF_CSP_BUFF_SIZE );
 		beacon_packet->length = strlen( (char *) beacon_packet->data);
 		// Store Beacon in file if not blocked
 		if(beacon_storage_padlock == BEACON_UNBLOCKED)
@@ -99,7 +99,7 @@ CSP_DEFINE_TASK( hk_service_task )
 			// If debug enabled, print action
 			#if	CONF_HK_DEBUG == ENABLE
 			print_debug("HK>\tBroadcasting Beacon:");
-			print_debug(beacon_packet->data);
+			print_debug((const char*) beacon_packet->data);
 			print_debug("\n");
 			#endif
 			// Broadcast beacon

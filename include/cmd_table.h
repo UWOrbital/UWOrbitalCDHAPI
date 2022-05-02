@@ -68,10 +68,10 @@ DEFINE_CMD_ROUTINE(cmd_reboot_obc);
 //////////////////////////////////////////////
 cmd_table_t mission_cmd_table = {
 	//Code of command				Amount of args					Pointer to routine
-	{.cmd_code = CMD_DUMMY,			.cmd_args_num = 0,				.cmd_routine_p = &dummy},
-	{.cmd_code = CMD_GET_PARAM,		.cmd_args_num = ARGS_NUM_ANNY,	.cmd_routine_p = &cmd_get_param},
-	{.cmd_code = CMD_SET_PARAM,		.cmd_args_num = ARGS_NUM_ANNY,	.cmd_routine_p = &cmd_set_param},
-	{.cmd_code = CMD_REBOOT_OBC,	.cmd_args_num = 0,				.cmd_routine_p = &cmd_reboot_obc}
+	{.cmd_code = CMD_DUMMY,			.cmd_args_num = 0,				.cmd_routine_p = (void*)&dummy},
+	{.cmd_code = CMD_GET_PARAM,		.cmd_args_num = ARGS_NUM_ANNY,	.cmd_routine_p = (void*)&cmd_get_param},
+	{.cmd_code = CMD_SET_PARAM,		.cmd_args_num = ARGS_NUM_ANNY,	.cmd_routine_p = (void*)&cmd_set_param},
+	{.cmd_code = CMD_REBOOT_OBC,	.cmd_args_num = 0,				.cmd_routine_p = (void*)&cmd_reboot_obc}
 };
 
 

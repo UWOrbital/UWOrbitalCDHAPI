@@ -174,7 +174,7 @@ int decode_cmd_message(csp_packet_t *  in_csp_packet, cmd_packet_t * out_cmd_pac
 	// Check if size of string with argument list is too big
 	if(str_len > CONF_CMD_ARG_LIST_SIZE) return EXIT_FAILURE;
 	// Copy string with arguments to cmd_packet argument list buffer
-	if(str_len > 0 ) strcpy( out_cmd_packet->cmd_arg_list, in_csp_packet->data+2 );
+	if(str_len > 0 ) strcpy( (char *) out_cmd_packet->cmd_arg_list, (char *) in_csp_packet->data+2 );
 	// Point the argument pointer to the first argument in list
 	out_cmd_packet->cmd_next_arg_p = (char *) out_cmd_packet->cmd_arg_list;
 	// If  cmd_args_num at corresponding table entry is different to ARGS_NUM_ANNY, then check that the amount of arguments in list match to cmd_args_num
@@ -284,7 +284,7 @@ int send_message( csp_conn_t * connection, csp_packet_t * csp_packet, const char
     // Exit Fail if no mem for new packet
 	if( csp_packet == NULL ) return EXIT_FAILURE;
 	// Store message in packet
-	strcpy( csp_packet->data, message_buff);
+	strcpy( (char *) csp_packet->data, message_buff);
     // Store message size
     csp_packet->length = strlen(message_buff);
     // Send message
