@@ -7,7 +7,7 @@
 
 
 /**
-  System health data encompassing all submodules 
+ * @brief System health data encompassing all submodules 
 */
 typedef struct {
 	// TODO: Add important system health parameters
